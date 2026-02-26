@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 import '../styles/Dashboard.css'
 import { PiChefHatBold } from 'react-icons/pi'
-import { RiAdminFill, RiCashFill } from 'react-icons/ri'
+import { RiAdminFill, RiCashFill, RiLockFill } from 'react-icons/ri'
 import { MdOutlineRestaurantMenu } from 'react-icons/md'
 import { GiCookingPot } from 'react-icons/gi'
 import { Link } from 'react-router-dom'
@@ -111,7 +111,10 @@ function Dashboard() {
                   <span className="role-label">{role.label}</span>
                 </div>
                 <p className="role-description">{role.description}</p>
-                <span className="role-badge">Acesso bloqueado</span>
+                <div className="role-badge">
+                  <RiLockFill className="role-badge-icon" />
+                  <span>Acesso bloqueado</span>
+                </div>
               </div>
             )
           }

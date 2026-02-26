@@ -91,6 +91,38 @@
   color: #9ca3af;
 }
 
+.role-card--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+  pointer-events: none;
+}
+
+.role-card--disabled:hover {
+  transform: none;
+  background-color: #020202c4;
+  border-color: #1f2937;
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #9ca3af;
+  font-size: 0.85rem;
+  font-weight: 500;
+  width: fit-content;
+  margin-top: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.role-badge-icon {
+  font-size: 1rem;
+}
+
 @media (max-width: 768px) {
   .dashboard {
     padding: 2rem 1.25rem;

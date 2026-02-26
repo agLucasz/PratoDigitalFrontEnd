@@ -7,6 +7,7 @@ import {
   desativar,
   type FormaPagamento as FormaPagamentoTipo,
 } from '../../services/formaPagamentoService'
+import { notify } from '../../utils/notify'
 
 function FormaPagamento() {
   const [formasPagamento, setFormasPagamento] = useState<FormaPagamentoTipo[]>([])
@@ -23,8 +24,8 @@ function FormaPagamento() {
         const data = await listarFormasPagamento()
         setFormasPagamento(data)
       } catch (error) {
-        console.error('Erro ao carregar formas de pagamento:', error)
-        alert('Erro ao carregar formas de pagamento')
+        console.error('Erro sop carregar formas de pagamento:', error)
+        notify.error('Erro ao carregar formas de pagamento')
       } finally {
         setCarregando(false)
       }
@@ -56,7 +57,7 @@ function FormaPagamento() {
       setformaPagamentoselecionada(null)
     } catch (error) {
       console.error('Erro ao excluir forma de pagamento:', error)
-      alert('Erro ao excluir forma de pagamento')
+      notify.error('Erro ao excluir forma de pagamento')
     }
   }
 
@@ -89,7 +90,7 @@ function FormaPagamento() {
       setEditando(false)
     } catch (error) {
       console.error('Erro ao atualizar forma de pagamento:', error)
-      alert('Erro ao atualizar forma de pagamento')
+      notify.error('Erro ao atualizar forma de pagamento')
     }
   }
 

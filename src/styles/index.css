@@ -10,6 +10,7 @@
   color-scheme: dark;
   text-rendering: optimizeLegibility;
   --black:#0c0c0c;
+  --gray: #0102072d;
 
 }
 
@@ -34,4 +35,56 @@ body {
 a{
   text-decoration: none;
   color: #f9fafb;
+}
+
+/* Toast: foco e estilo */
+.Toastify__toast {
+  font-size: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+  transform: scale(0.96);
+  animation: toast-pop .18s ease-out forwards;
+}
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #065f46, #10b981);
+  color: #fff;
+}
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #7f1d1d, #ef4444);
+  color: #fff;
+}
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #92400e, #f59e0b);
+  color: #fff;
+}
+.Toastify__toast-body {
+  font-weight: 600;
+}
+.Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.9);
+}
+@keyframes toast-pop {
+  to { transform: scale(1); }
+}
+
+/* Escurecer e desabilitar a tela ao exibir mensagens */
+body.toast-dim::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 9998;
+  pointer-events: auto;
+}
+
+/* Garantir que o container do toast fique acima do overlay */
+.Toastify__toast-container {
+  z-index: 9999;
+}
+
+/* Descer a posição do top-center para não colar no topo */
+.Toastify__toast-container--top-center {
+  top: 96px;
 }

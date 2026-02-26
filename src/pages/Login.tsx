@@ -1,36 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../services/authService";
 import "../styles/Login.css";
 import { PiChefHatBold } from "react-icons/pi";
+import { notify } from "../utils/notify";
 
 function Login() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-
-  useEffect(() => {
-    const storedCreds = localStorage.getItem("credenciaisLogin");
-
-    if (!storedCreds) return;
-
+  const [email, setEmail] = useState(() => {
     try {
-      const parsed = JSON.parse(storedCreds) as {
-        email?: string;
-        senha?: string;
-      };
-
-      if (parsed.email) {
-        setEmail(parsed.email);
-      }
-
-      if (parsed.senha) {
-        setSenha(parsed.senha);
-      }
+      const stored = localStorage.getItem("credenciaisLogin");
+      if (!stored) return "";
+      const parsed = JSON.parse(stored) as { email?: string };
+      return parsed.email ?? "";
     } catch {
+      return "";
     }
-  }, []);
+  });
+  const [senha, setSenha] = useState(() => {
+    try {
+      const stored = localStorage.getItem("credenciaisLogin");
+      if (!stored) return "";
+      const parsed = JSON.parse(stored) as { senha?: string };
+      return parsed.senha ?? "";
+    } catch {
+      return "";
+    }
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +45,7 @@ function Login() {
 
     } catch (error) {
       console.error("Erro no login:", error);
-      alert("Email ou senha inválidos");
+      notify.error("Email ou senha inválidos");
     }
   };
 

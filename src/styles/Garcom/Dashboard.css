@@ -1,0 +1,125 @@
+.garcom-dashboard {
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  color: #e5e7eb;
+}
+
+.garcom-header {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.garcom-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.garcom-title h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--orange);
+}
+
+.garcom-title p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.garcom-back-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.garcom-back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.garcom-actions-grid {
+  width: 100%;
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .garcom-actions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.garcom-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  background-color: #020202c4;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 200px;
+}
+
+.garcom-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--orange);
+  background-color: rgba(226, 109, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.garcom-card-icon {
+  font-size: 3.5rem;
+  color: var(--orange);
+  margin-bottom: 1rem;
+}
+
+.garcom-card h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.garcom-card p {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.garcom-active-orders {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 1rem;
+}
+
+.active-orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.active-orders-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #d1d5db;
+}

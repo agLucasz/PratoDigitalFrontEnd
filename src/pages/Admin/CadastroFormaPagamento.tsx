@@ -3,6 +3,7 @@ import { cadastrar } from '../../services/formaPagamentoService'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { MdPayment, MdArrowBack, MdSave } from 'react-icons/md';
+import { notify } from '../../utils/notify';
 
 function CadastrarFormaPagamento(){
   const navigate = useNavigate();
@@ -18,12 +19,12 @@ const handleSubmit = async (e: React.FormEvent) => {
         descricaoPagamento,
       });
 
-      alert("Forma de Pagamento cadastrada com sucesso!");
-      navigate("/admin/formapagamento"); // Adjust path if needed
+      notify.success("Forma de Pagamento cadastrada com sucesso!");
+      navigate("/admin/formapagamento");
 
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
-      alert("Erro ao cadastrar forma de pagamento");
+      notify.error("Erro ao cadastrar forma de pagamento.");
     } finally {
       setLoading(false);
     }

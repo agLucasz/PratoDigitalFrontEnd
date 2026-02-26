@@ -7,6 +7,7 @@ import {
   MdArrowBack, 
   MdSave
 } from 'react-icons/md';
+import { notify } from '../../utils/notify';
 
 function CadastroProduto() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function CadastroProduto() {
         setCategorias(data);
       } catch (error) {
         console.error('Erro ao carregar categorias:', error);
-        alert('Erro ao carregar categorias');
+        notify.error('Não foi possível carregar as categorias.');
       } finally {
         setCarregandoCategorias(false);
       }
@@ -39,7 +40,7 @@ function CadastroProduto() {
     e.preventDefault();
 
     if (categoriaId === '') {
-      alert('Selecione uma categoria');
+      notify.warning('Selecione uma categoria');
       return;
     }
 
@@ -52,15 +53,13 @@ function CadastroProduto() {
         categoriaId,
       });
 
-      // Feedback visual antes de navegar (opcional, mas bom para UX)
-      setTimeout(() => {
-        alert("Produto cadastrado com sucesso!");
-        navigate("/");
-      }, 100);
+      // Feedback visual antes de navegar
+      notify.success("Produto cadastrado com sucesso!");
+      navigate("/");
 
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
-      alert("Erro ao cadastrar produto");
+      notify.error("Erro ao cadastrar produto. Verifique os dados.");
       setLoading(false);
     }
   };

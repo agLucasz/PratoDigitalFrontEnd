@@ -16,6 +16,7 @@ import {
   listarCategorias,
   type Categoria as CategoriaTipo,
 } from '../../services/categoriaService'
+import { notify } from '../../utils/notify'
 
 function Produto() {
   const [produtos, setProdutos] = useState<ProdutoTipo[]>([])
@@ -42,7 +43,7 @@ function Produto() {
         setCategorias(categoriasData)
       } catch (error) {
         console.error('Erro ao carregar produtos:', error)
-        alert('Erro ao carregar produtos')
+        notify.error('Erro ao carregar produtos')
       } finally {
         setCarregando(false)
       }
@@ -67,9 +68,10 @@ function Produto() {
       setProdutos((prev) => prev.filter((p) => p.produtoId !== produtoSelecionado.produtoId))
       setProdutoSelecionado(null)
       setExpandido(null)
+      notify.success('Produto excluído')
     } catch (error) {
       console.error('Erro ao excluir produto:', error)
-      alert('Erro ao excluir produto')
+      notify.error('Erro ao excluir produto')
     }
   }
 
@@ -100,7 +102,7 @@ function Produto() {
       setEditando(false)
     } catch (error) {
       console.error('Erro ao atualizar produto:', error)
-      alert('Erro ao atualizar produto')
+      notify.error('Erro ao atualizar produto')
     }
   }
 

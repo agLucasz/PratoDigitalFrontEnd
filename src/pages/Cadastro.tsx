@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { cadastrar } from "../services/authService";
 import "../styles/Login.css";
 import { PiChefHatBold } from "react-icons/pi";
+import { notify } from "../utils/notify";
 
 function Cadastro() {
   const navigate = useNavigate();
@@ -23,12 +24,12 @@ function Cadastro() {
         cargo
       });
 
-      alert("Usuário cadastrado com sucesso!");
+      notify.success("Usuário cadastrado com sucesso!");
       navigate("/");
 
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
-      alert("Erro ao cadastrar usuário");
+      notify.error("Erro ao cadastrar usuário. Verifique os dados.");
     }
   };
 

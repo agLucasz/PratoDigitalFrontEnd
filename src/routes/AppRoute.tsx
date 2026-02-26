@@ -3,7 +3,7 @@ import Login from '../pages/Login'
 import Cadastro from '../pages/Cadastro'
 import Dashboard from '../pages/DashBoard'
 import AdminModule from '../pages/Admin/AdminModule'
-import GarcomModule from '../pages/GarcomModule'
+import GarcomModule from '../pages/Garcom/GarcomModule'
 import CozinhaModule from '../pages/CozinhaModule'
 import CaixaModule from '../pages/CaixaModule'
 

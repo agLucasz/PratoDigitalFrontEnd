@@ -3,6 +3,7 @@ import { cadastrar } from '../../services/categoriaService';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { MdCategory, MdArrowBack, MdSave } from 'react-icons/md';
+import { notify } from '../../utils/notify';
 
 function CadastroCategoria() {
   const navigate = useNavigate();
@@ -18,12 +19,12 @@ const handleSubmit = async (e: React.FormEvent) => {
         nomeCategoria,
       });
 
-      alert("Categoria cadastrada com sucesso!");
-      navigate("/admin/categoria"); // Assuming this is the path, or just go back
+      notify.success("Categoria cadastrada com sucesso!");
+      navigate("/admin/categoria");
 
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
-      alert("Erro ao cadastrar categoria");
+      notify.error("Erro ao cadastrar categoria.");
     } finally {
       setLoading(false);
     }

@@ -7,6 +7,7 @@ import {
   type Categoria as CategoriaTipo,
 } from '../../services/categoriaService'
 import { MdCategory, MdEdit, MdDelete } from 'react-icons/md'
+import { notify } from '../../utils/notify'
 
 function Categoria() {
   const [categorias, setCategorias] = useState<CategoriaTipo[]>([])
@@ -23,7 +24,7 @@ function Categoria() {
         setCategorias(data)
       } catch (error) {
         console.error('Erro ao carregar categorias:', error)
-        alert('Erro ao carregar categorias')
+        notify.error('Erro ao carregar categorias')
       } finally {
         setCarregando(false)
       }
@@ -52,7 +53,7 @@ function Categoria() {
       setCategoriaSelecionada(null)
     } catch (error) {
       console.error('Erro ao excluir categoria:', error)
-      alert('Erro ao excluir categoria')
+      notify.error('Erro ao excluir categoria')
     }
   }
 
@@ -79,7 +80,7 @@ function Categoria() {
       setEditando(false)
     } catch (error) {
       console.error('Erro ao atualizar categoria:', error)
-      alert('Erro ao atualizar categoria')
+      notify.error('Erro ao atualizar categoria')
     }
   }
 
