@@ -39,52 +39,42 @@ a{
 
 /* Toast: foco e estilo */
 .Toastify__toast {
-  font-size: 1rem;
-  padding: 1rem 1.25rem;
+  font-size: 1.1rem;
+  padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
-  transform: scale(0.96);
-  animation: toast-pop .18s ease-out forwards;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 1rem;
 }
 .Toastify__toast--success {
-  background: linear-gradient(135deg, #065f46, #10b981);
+  background: #10b981;
   color: #fff;
 }
 .Toastify__toast--error {
-  background: linear-gradient(135deg, #7f1d1d, #ef4444);
+  background: #ef4444;
   color: #fff;
 }
 .Toastify__toast--warning {
-  background: linear-gradient(135deg, #92400e, #f59e0b);
+  background: #f59e0b;
   color: #fff;
 }
 .Toastify__toast-body {
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1.6;
 }
 .Toastify__progress-bar {
-  background: rgba(255, 255, 255, 0.9);
-}
-@keyframes toast-pop {
-  to { transform: scale(1); }
+  background: rgba(255, 255, 255, 0.8);
+  height: 4px;
 }
 
-/* Escurecer e desabilitar a tela ao exibir mensagens */
-body.toast-dim::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(2px);
-  z-index: 9998;
-  pointer-events: auto;
-}
-
-/* Garantir que o container do toast fique acima do overlay */
+/* Garantir que o container do toast fique acima de tudo */
 .Toastify__toast-container {
   z-index: 9999;
+  width: 400px; /* Mais largo */
+  max-width: 90vw;
 }
 
-/* Descer a posição do top-center para não colar no topo */
+/* Ajustar posição */
 .Toastify__toast-container--top-center {
-  top: 96px;
+  top: 2rem;
 }
