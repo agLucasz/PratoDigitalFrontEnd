@@ -4,7 +4,7 @@ import Cadastro from '../pages/Cadastro'
 import Dashboard from '../pages/DashBoard'
 import AdminModule from '../pages/Admin/AdminModule'
 import GarcomModule from '../pages/Garcom/GarcomModule'
-import CozinhaModule from '../pages/CozinhaModule'
+import CozinhaModule from '../pages/Cozinha/CozinhaModule'
 import CaixaModule from '../pages/CaixaModule'
 
 function AppRoute() {

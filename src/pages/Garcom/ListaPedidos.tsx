@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import '../../styles/Garcom/ListaPedido.css'
 import { 
   listarPedidos, 
@@ -8,8 +8,10 @@ import {
   type Pedido
 } from '../../services/pedidoService'
 import { listarProdutos, type Produto } from '../../services/produtoService'
+import { useSignalR } from '../../services/signalRService'
+import { HubConnection } from '@microsoft/signalr'
 import notify from '../../utils/notify'
-import { MdAccessTime, MdClose, MdRefresh, MdDelete, MdAdd } from 'react-icons/md'
+import { MdAccessTime, MdClose, MdRefresh, MdDelete, MdAdd, MdCheckCircle } from 'react-icons/md'
 
 interface ListaPedidosProps {
   onBack: () => void
@@ -18,7 +20,7 @@ interface ListaPedidosProps {
 const statusMap: { [key: number]: { label: string; class: string } } = {
   1: { label: 'Aberto', class: 'aberto' },
   2: { label: 'Pendente', class: 'pendente' },
-  3: { label: 'Fechado', class: 'fechado' },
+  3: { label: 'Pronto', class: 'fechado' },
   4: { label: 'Cancelado', class: 'cancelado' }
 }
 
@@ -27,6 +29,10 @@ const ListaPedidos: React.FC<ListaPedidosProps> = ({ onBack }) => {
   const [loading, setLoading] = useState(false)
   const [selectedPedido, setSelectedPedido] = useState<Pedido | null>(null)
   const [loadingDetails, setLoadingDetails] = useState(false)
+
+
+  const connectionRef = useRef<HubConnection | null>(null)
+  const { createConnection } = useSignalR()
 
 
   const [produtos, setProdutos] = useState<Produto[]>([])
@@ -51,8 +57,49 @@ const ListaPedidos: React.FC<ListaPedidosProps> = ({ onBack }) => {
 
   useEffect(() => {
     fetchPedidos()
-
     listarProdutos().then(setProdutos).catch(console.error)
+
+  
+    const connection = createConnection()
+    
+    connection.on('PedidoFinalizado', (pedido: Pedido) => {
+      notify.success(`Pedido #${pedido.pedidoId} da Mesa ${pedido.mesa} está pronto!`)
+      setPedidos(prev => {
+        const index = prev.findIndex(p => p.pedidoId === pedido.pedidoId)
+        if (index >= 0) {
+          const newPedidos = [...prev]
+          newPedidos[index] = pedido
+          return newPedidos
+        } else {
+          return [pedido, ...prev]
+        }
+      })
+    })
+
+    connection.start()
+      .then(() => {
+        console.log('SignalR Connected (Garçom)')
+
+        const userStr = localStorage.getItem('usuario')
+        if (userStr) {
+          try {
+            const user = JSON.parse(userStr)
+            if (user.usuarioId) {
+               console.log('Joining group:', user.usuarioId)
+               connection.invoke('JoinUserGroup', user.usuarioId.toString())
+            }
+          } catch (e) {
+            console.error('Error parsing user from localstorage', e)
+          }
+        }
+      })
+      .catch(err => console.error('SignalR Connection Error: ', err))
+
+    connectionRef.current = connection
+
+    return () => {
+      connection.stop()
+    }
   }, [])
 
   const handleCardClick = async (pedidoId: number) => {
@@ -130,6 +177,9 @@ const ListaPedidos: React.FC<ListaPedidosProps> = ({ onBack }) => {
     return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
   }
 
+  const pedidosAbertos = pedidos.filter(p => p.status === 1 || p.status === 2)
+  const pedidosProntos = pedidos.filter(p => p.status === 3)
+
   return (
     <div className="lista-pedidos-container">
       <div className="garcom-header-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
@@ -155,31 +205,78 @@ const ListaPedidos: React.FC<ListaPedidosProps> = ({ onBack }) => {
           <p>Nenhum pedido encontrado.</p>
         </div>
       ) : (
-        <div className="pedidos-grid">
-          {pedidos.map((pedido) => (
-            <div 
-              key={pedido.pedidoId} 
-              className="pedido-card"
-              data-status={pedido.status}
-              onClick={() => handleCardClick(pedido.pedidoId)}
-            >
-              <div className="pedido-header">
-                <span className="pedido-mesa">Mesa {pedido.mesa}</span>
-                <span className="pedido-id">#{pedido.pedidoId}</span>
+        <>
+          {/* Seção Pedidos Prontos */}
+          {pedidosProntos.length > 0 && (
+            <div className="section-prontos">
+              <h3 className="section-title">
+                <MdCheckCircle color="#4caf50" style={{ marginRight: '8px' }} />
+                Prontos
+              </h3>
+              <div className="pedidos-grid">
+                {pedidosProntos.map((pedido) => (
+                  <div 
+                    key={pedido.pedidoId} 
+                    className="pedido-card pronto"
+                    data-status={pedido.status}
+                    onClick={() => handleCardClick(pedido.pedidoId)}
+                    style={{ borderColor: '#4caf50', borderWidth: '2px' }}
+                  >
+                    <div className="pedido-header">
+                      <span className="pedido-mesa">Mesa {pedido.mesa}</span>
+                      <span className="pedido-id">#{pedido.pedidoId}</span>
+                    </div>
+                    
+                    <div className="pedido-info">
+                      <span className="pedido-status-badge" style={{ backgroundColor: '#4caf50' }}>
+                        Pronto
+                      </span>
+                      <div className="pedido-time">
+                        <MdAccessTime />
+                        <span>{formatTime(pedido.dataAbertura)}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              
-              <div className="pedido-info">
-                <span className="pedido-status-badge">
-                  {statusMap[pedido.status]?.label || 'Desconhecido'}
-                </span>
-                <div className="pedido-time">
-                  <MdAccessTime />
-                  <span>{formatTime(pedido.dataAbertura)}</span>
-                </div>
-              </div>
+              <hr className="divider" />
             </div>
-          ))}
-        </div>
+          )}
+
+     
+          <div className="section-abertos">
+            <h3 className="section-title">Em Preparo</h3>
+            {pedidosAbertos.length === 0 ? (
+              <p className="empty-state-text">Nenhum pedido em preparo.</p>
+            ) : (
+              <div className="pedidos-grid">
+                {pedidosAbertos.map((pedido) => (
+                  <div 
+                    key={pedido.pedidoId} 
+                    className="pedido-card"
+                    data-status={pedido.status}
+                    onClick={() => handleCardClick(pedido.pedidoId)}
+                  >
+                    <div className="pedido-header">
+                      <span className="pedido-mesa">Mesa {pedido.mesa}</span>
+                      <span className="pedido-id">#{pedido.pedidoId}</span>
+                    </div>
+                    
+                    <div className="pedido-info">
+                      <span className="pedido-status-badge">
+                        {statusMap[pedido.status]?.label || 'Desconhecido'}
+                      </span>
+                      <div className="pedido-time">
+                        <MdAccessTime />
+                        <span>{formatTime(pedido.dataAbertura)}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
       )}
 
   

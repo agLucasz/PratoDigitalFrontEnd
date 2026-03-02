@@ -1,0 +1,167 @@
+.cozinha-dashboard {
+  padding: 1rem;
+  min-height: 100vh;
+  color: #fff;
+  background-color: #121212;
+}
+
+.cozinha-dashboard h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--orange, #f29f05);
+  border-bottom: 3px solid #333;
+  padding-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.cozinha-pedidos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 2rem;
+}
+
+.cozinha-pedido-card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid #333;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 400px; /* Ensure cards are tall enough */
+}
+
+.cozinha-pedido-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+  border-color: var(--orange, #f29f05);
+}
+
+.cozinha-card-header {
+  background-color: #2a2a2a;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #444;
+}
+
+.cozinha-card-header h2 {
+  font-size: 2.2rem; /* Larger Table Number */
+  margin: 0;
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.cozinha-pedido-id {
+  font-family: monospace;
+  color: #aaa;
+  font-size: 1.8rem; /* Larger Order ID */
+  background: #111;
+  padding: 0.2rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.cozinha-card-body {
+  padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto; /* Scroll if too many items */
+}
+
+.sem-itens {
+  font-size: 1.5rem;
+  color: #666;
+  text-align: center;
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+.cozinha-card-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cozinha-card-body li {
+  padding: 1rem 0;
+  border-bottom: 1px solid #333;
+}
+
+.cozinha-card-body li:last-child {
+  border-bottom: none;
+}
+
+.item-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quantidade {
+  font-weight: 900;
+  color: var(--orange, #f29f05);
+  font-size: 2.2rem; /* Huge quantity */
+  min-width: 3rem;
+  text-align: center;
+  background: #333;
+  padding: 0.2rem;
+  border-radius: 6px;
+}
+
+.produto-nome {
+  font-size: 1.6rem; /* Huge product name */
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.obs {
+  margin: 0.8rem 0 0 0;
+  font-size: 1.2rem;
+  color: #ff4d4d; /* Bright red for warnings */
+  font-weight: bold;
+  font-style: normal;
+  background: rgba(255, 77, 77, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+  border-left: 4px solid #ff4d4d;
+}
+
+.cozinha-card-footer {
+  padding: 1.5rem;
+  background-color: #2a2a2a;
+  border-top: 2px solid #444;
+}
+
+.btn-finalizar {
+  background-color: #2ecc71; /* Green for finish */
+  color: #000;
+  border: none;
+  padding: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-finalizar:hover {
+  background-color: #27ae60;
+  transform: scale(1.02);
+}
+
+.no-pedidos {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 2rem;
+  color: #666;
+  margin-top: 5rem;
+  font-weight: 300;
+}

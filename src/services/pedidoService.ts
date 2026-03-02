@@ -26,6 +26,15 @@ const getAuthHeader = () => {
   return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
+export const finalizarPedido = async (pedidoId: number) => {
+  const response = await axios.post(
+    `${API_URL}/pedido/${pedidoId}/finalizar`,
+    {},
+    { headers: getAuthHeader() }
+  )
+  return response.data
+}
+
 export const listarPedidos = async (status?: number, mesa?: number, usuarioId?: number) => {
   const params: any = {}
   if (status !== undefined) params.status = status
@@ -102,3 +111,4 @@ export const removerItemPedidoAberto = async (pedidoId: number, itemId: number) 
   )
   return response.data
 }
+
